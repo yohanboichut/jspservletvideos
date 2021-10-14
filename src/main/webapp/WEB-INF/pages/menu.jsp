@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<h1>Au menu du jour</h1>
+<h1>Bonjour ${user.pseudo}, voici le menu du jour</h1>
 <ul>
     <li><a href="/authentification/deconnexion">Déconnexion</a> </li>
 </ul>

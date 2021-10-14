@@ -1,5 +1,7 @@
 package servlets;
 
+import modele.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,12 +25,26 @@ public class Controleur extends HttpServlet {
         String cleNavigation = parties[parties.length-1];
         String destination = "/WEB-INF/pages/accueil.jsp";
 
+        FacadeGestionUtilisateurs facade = (FacadeGestionUtilisateurs)
+                this.getServletContext().getAttribute("facade");
+
         if (HOME.equals(cleNavigation)) {
             destination  = "/WEB-INF/pages/accueil.jsp";
         }
 
 
         if (DECONNEXION.equals(cleNavigation)) {
+            String cle = (String)req.getSession().getAttribute("cleAuthentification");
+            try {
+                facade.deconnexion(cle);
+                req.getSession().invalidate();
+
+
+            } catch (CleInexistanteException e) {
+                String erreur = "Erreur inattendue liée à la clé d'authentification !";
+                req.setAttribute("erreur",erreur);
+            }
+
             destination  = "/WEB-INF/pages/accueil.jsp";
         }
 
@@ -45,8 +61,36 @@ public class Controleur extends HttpServlet {
         String cleNavigation = parties[parties.length-1];
         String destination = "/WEB-INF/pages/accueil.jsp";
 
+        FacadeGestionUtilisateurs facade = (FacadeGestionUtilisateurs)
+                this.getServletContext().getAttribute("facade");
+
         if (CONNEXION.equals(cleNavigation)) {
-            destination = "/WEB-INF/pages/menu.jsp";
+            String pseudo = req.getParameter("pseudo");
+            String password = req.getParameter("password");
+            try {
+                String cle = facade.connexion(pseudo,password);
+                Utilisateur utilisateur = facade.getUtilisateurParCle(cle);
+                req.getSession().setAttribute("user",utilisateur);
+                req.getSession().setAttribute("cleAuthentification",cle);
+                destination = "/WEB-INF/pages/menu.jsp";
+
+
+            } catch (IdentifiantsNonValidesException e) {
+                destination = "/WEB-INF/pages/accueil.jsp";
+                String erreur = "Identifiants non valides";
+                req.setAttribute("erreur",erreur);
+            } catch (UtilisateurDejaConnecteException e) {
+                String erreur = "L'utilisateur "+pseudo + " est déjà connecté !";
+                req.setAttribute("erreur",erreur);
+                destination = "/WEB-INF/pages/accueil.jsp";
+            } catch (CleInexistanteException e) {
+                String erreur = "Erreur inattendue liée à la clé d'authentification !";
+                req.setAttribute("erreur",erreur);
+                destination = "/WEB-INF/pages/accueil.jsp";
+            }
+
+
+
         }
 
         this.getServletContext().getRequestDispatcher(destination).forward(req,resp);

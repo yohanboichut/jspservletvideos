@@ -12,6 +12,11 @@
 </head>
 <body>
 
+<span style="color: red; ">
+    ${erreur}
+</span>
+
+
 <form method="post" action="/authentification/connexion">
   <label for="field:pseudo">Saisir votre pseudo</label>  <input name="pseudo" id="field:pseudo" type="text">
     <label for="field:password">Saisir votre mot de passe </label>
