@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: yoh
@@ -9,6 +10,9 @@
 <html>
 <head>
     <title>Page du menu</title>
+    <jsp:useBean id="user" scope="session" type="modele.Utilisateur"/>
+    <jsp:useBean id="utilisateurs" scope="request" type="java.util.Collection<modele.Utilisateur>"/>
+
 </head>
 <body>
 
@@ -16,6 +20,20 @@
 <ul>
     <li><a href="/authentification/deconnexion">Déconnexion</a> </li>
 </ul>
+
+
+Liste des utilisateurs inscrits
+<ul>
+
+    <c:forEach items="${utilisateurs}" var="x">
+
+    <li>${x.pseudo}</li>
+
+    </c:forEach>
+
+</ul>
+
+
 
 </body>
 </html>

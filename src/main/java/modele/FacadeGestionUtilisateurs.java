@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Collection;
+
 public interface FacadeGestionUtilisateurs {
 
     void inscription(String pseudo, String motDePasse) throws PseudoDejaExistantException, DonneesNonValidesException;
@@ -10,5 +12,8 @@ public interface FacadeGestionUtilisateurs {
     void deconnexion(String cle) throws CleInexistanteException;
 
     Utilisateur getUtilisateurParCle(String cle) throws CleInexistanteException;
+
+
+    Collection<Utilisateur> getTousLesUtilisateurs(String cle) throws CleInexistanteException;
 
 }

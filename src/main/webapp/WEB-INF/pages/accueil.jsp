@@ -9,6 +9,9 @@
 <html>
 <head>
     <title>Page de connexion</title>
+    <jsp:useBean id="erreur" type="java.lang.String"
+                 class="java.lang.String"
+                 scope="request"/>
 </head>
 <body>
 

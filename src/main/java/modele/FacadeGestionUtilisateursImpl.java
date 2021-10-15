@@ -1,9 +1,6 @@
 package modele;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class FacadeGestionUtilisateursImpl implements FacadeGestionUtilisateurs{
     private Map<String,Utilisateur> inscrits;
@@ -67,5 +64,13 @@ public class FacadeGestionUtilisateursImpl implements FacadeGestionUtilisateurs{
         }
         return connectes.get(cle);
 
+    }
+
+    @Override
+    public Collection<Utilisateur> getTousLesUtilisateurs(String cle) throws CleInexistanteException {
+        if (!connectes.containsKey(cle)) {
+            throw new CleInexistanteException();
+        }
+        return this.inscrits.values();
     }
 }

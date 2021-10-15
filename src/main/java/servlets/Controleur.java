@@ -72,6 +72,7 @@ public class Controleur extends HttpServlet {
                 Utilisateur utilisateur = facade.getUtilisateurParCle(cle);
                 req.getSession().setAttribute("user",utilisateur);
                 req.getSession().setAttribute("cleAuthentification",cle);
+                req.setAttribute("utilisateurs",facade.getTousLesUtilisateurs(cle));
                 destination = "/WEB-INF/pages/menu.jsp";
 
 
